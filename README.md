@@ -1,6 +1,9 @@
 # frames2img
 The average colour of each frame passed into the program
 
+## Compiling
+
+Needs libpng to process the frames and openmp to speed stuff up.
 
 ## Usage
 
