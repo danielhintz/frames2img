@@ -6,7 +6,7 @@
 typedef uint8_t uint8;
 typedef uint32_t uint32;
 
-const int bytesPerPixel = 3; /// red, green, blue
+const int bytesPerPixel = 3;
 
 void usage();
 uint32 averagergb(png_image *, uint8 *);
@@ -14,11 +14,11 @@ uint32 averagergb(png_image *, uint8 *);
 int main(int argc, char **argv){
 	if(argc == 1) usage();
 	char *imageFileName = "output.png";
-	int height = 720;
+	int height = 480;
 	int width = argc-1;
 	int percent = 0;
 
-	uint32 frames[width];
+	uint32 *frames = malloc(width*sizeof(uint32));
 
 #pragma omp parallel for
 	for(int i =1;i<argc;i++) {
@@ -38,13 +38,14 @@ int main(int argc, char **argv){
 		fprintf(stdout, "%d%% Complete\r", ++percent * 100 / argc);
 		fflush(stdout);
 	}
-	uint8 image[height][width][bytesPerPixel];
+	uint8 *imgPointer = malloc(height*width*3*sizeof(uint8 *));
 
 	for(int i=0; i<height; i++){
 		for(int j=0; j<width; j++){
-			image[i][j][2] = ((frames[j] >> 16)&0xff);
-			image[i][j][1] = ((frames[j] >> 8)&0xff);
-			image[i][j][0] = (frames[j] & 0xff);
+			int index = i+j*height;
+			imgPointer[j*3+i*width*3+2] = ((frames[j] >> 16)&0xff);
+			imgPointer[j*3+i*width*3+1] = ((frames[j] >> 8)&0xff);
+			imgPointer[j*3+i*width*3+0] = ((frames[j])&0xff);
 		}
 	}
 
@@ -54,7 +55,10 @@ int main(int argc, char **argv){
 	output.width = width;
 	output.height = height;
 
-	png_image_write_to_file(&output, imageFileName, 0, image, 0, NULL);
+	png_image_write_to_file(&output, imageFileName, 0, imgPointer, 0, NULL);
+
+	free(imgPointer);
+	free(frames);
 }
 
 void
