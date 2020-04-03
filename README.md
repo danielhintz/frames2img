@@ -9,9 +9,9 @@ Needs libpng to process the frames and openmp to speed stuff up.
 
 Use ffmpeg to extract the frames you want from whatever you want to create the image from
 
-    ffmpeg -i movie.mp4 -r 1 frames/$filename%05d.png
+    ./extractframes movie.mp4
 
-This takes one frame per second, but you can change that to whatever you want.
+This takes one frame per second, but you can edit the script to change that to whatever you want.
 
 and then run it like
 
