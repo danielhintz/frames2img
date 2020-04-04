@@ -35,8 +35,8 @@ int main(int argc, char **argv){
 		free(buffer);
 		png_image_free(&image);
 
-		fprintf(stdout, "%d%% Complete\r", ++percent * 100 / argc);
-		fflush(stdout);
+		fprintf(stderr, "%d%% Complete\r", ++percent * 100 / argc);
+		fflush(stderr);
 	}
 	uint8 *imgPointer = malloc(height*width*3*sizeof(uint8 *));
 
@@ -55,7 +55,7 @@ int main(int argc, char **argv){
 	output.width = width;
 	output.height = height;
 
-	png_image_write_to_file(&output, imageFileName, 0, imgPointer, 0, NULL);
+	png_image_write_to_stdio(&output, stdout, 0, imgPointer, 0, NULL);
 
 	free(imgPointer);
 	free(frames);
