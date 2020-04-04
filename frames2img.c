@@ -13,7 +13,6 @@ uint32 averagergb(png_image *, uint8 *);
 
 int main(int argc, char **argv){
 	if(argc == 1) usage();
-	char *imageFileName = "output.png";
 	int height = 1080;
 	int width = argc-1;
 	int percent = 0;
