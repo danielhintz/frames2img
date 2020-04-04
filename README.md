@@ -17,7 +17,11 @@ and then run it like
 
     ./frames2img frames/*
 
-and it will write to "output.png" one vertical line per frame that is the average colour of that frame.
+and it will write a png to stdout. one vertical line per frame that is the average colour of that frame.
+
+To save to a file, redirect the output.
+
+I chose to switch to stdout to conform better with the unix philosophy
 
 ## Contributing
 
